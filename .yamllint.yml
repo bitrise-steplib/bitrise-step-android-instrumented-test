@@ -1,0 +1,10 @@
+---
+
+extends: default
+
+ignore: |
+  vendor/
+  _tmp/
+
+rules:
+  line-length: disable

@@ -1,0 +1,68 @@
+---
+
+title: Android Instrument Test
+summary: Runs Instrument tests on an existing APK
+description: Runs Instrument tests on an existing APK
+website: https://github.com/hisaac/bitrise-step-android-instrument-test
+source_code_url: https://github.com/hisaac/bitrise-step-android-instrument-test
+support_url: https://github.com/hisaac/bitrise-step-android-instrument-test/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+project_type_tags:
+  - android
+
+type_tags:
+  - test
+
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+    - name: git
+  apt_get:
+    - name: git
+
+
+toolkit:
+  go:
+    package_name: github.com/hisaac/bitrise-step-android-instrument-test
+
+
+inputs:
+  - main_apk_path: $BITRISE_APK_PATH
+    opts:
+      title: Main APK path
+      summary: The path to the app's main APK
+      description: The path to the app's main APK
+      is_required: true
+
+  - test_apk_path: $BITRISE_TEST_APK_PATH
+    opts:
+      title: Test APK path
+      summary: The path to the app's test APK
+      description: The path to the app's test APK
+      is_required: true
+
+  - test_runner_class: androidx.test.runner.AndroidJUnitRunner
+    opts:
+      title: Test runner class
+      summary: The name of the test runner
+      description: The name of the test runner
+
+  - additional_testing_options: ""
+    opts:
+      title: Additional testing options
+      summary: Additional options to pass to the `adb` command
+      description: |-
+        Additional options to pass to the `adb` command
+
+        Options will be passed to the command like so:
+
+        ```shell
+        adb shell am instrument [...] -e $additional_testing_options
+        ```
