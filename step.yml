@@ -53,6 +53,7 @@ inputs:
       title: Test runner class
       summary: The name of the test runner
       description: The name of the test runner
+      is_required: true
 
   - additional_testing_options: ""
     opts:
