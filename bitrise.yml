@@ -46,7 +46,7 @@ workflows:
             - project_location: ./_tmp
             - module: app
             - variant: debug
-      - git::https://github.com/bitrise-steplib/steps-avd-manager.git@use-host-gpu:
+      - git::https://github.com/bitrise-steplib/steps-avd-manager.git@master:
           inputs:
             - abi: arm64-v8a
       - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator@master: {}
