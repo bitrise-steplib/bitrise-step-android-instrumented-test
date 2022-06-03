@@ -63,16 +63,18 @@ workflows:
 
                 adb shell am instrument -w "$TEST_APP_PACKAGE_NAME/androidx.test.runner.AndroidJUnitRunner"
       - script:
-          summary: Kills the emulator created by AVD manager above
+          summary: Cleanup local environment
           description: |-
-            Kills the emulator created by AVD manager above. In CI, the host VM will be killed and cleaned up, so this is only really useful on a local development machine.
+            Kills the emulator created by AVD manager above, and deletes the `_tmp` directory.
+
+            In CI, the host VM will be killed and cleaned up, so this is only really useful on a local development machine.
           run_if: not .IsCI
           inputs:
             - content: |
                 #!/bin/bash
                 set -ex
-
                 adb -s $BITRISE_EMULATOR_SERIAL emu kill
+                rm -rf ./_tmp
 
 
 #      - path::./:
