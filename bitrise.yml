@@ -50,19 +50,22 @@ workflows:
           inputs:
             - abi: arm64-v8a
       - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator@master: {}
+      - path::./:
+          title: Step Test
+#      - script:
+#          inputs:
+#            - content: |
+#                #!/bin/bash
+#                set -ex
+#
+#                adb install "$BITRISE_APK_PATH"
+#                adb install "$BITRISE_TEST_APK_PATH"
+#
+#                TEST_APP_PACKAGE_NAME=$(apkanalyzer manifest application-id "$BITRISE_TEST_APK_PATH")
+#
+#                adb shell am instrument -w "$TEST_APP_PACKAGE_NAME/androidx.test.runner.AndroidJUnitRunner"
       - script:
-          inputs:
-            - content: |
-                #!/bin/bash
-                set -ex
-
-                adb install "$BITRISE_APK_PATH"
-                adb install "$BITRISE_TEST_APK_PATH"
-
-                TEST_APP_PACKAGE_NAME=$(apkanalyzer manifest application-id "$BITRISE_TEST_APK_PATH")
-
-                adb shell am instrument -w "$TEST_APP_PACKAGE_NAME/androidx.test.runner.AndroidJUnitRunner"
-      - script:
+          is_always_run: true
           summary: Cleanup local environment
           description: |-
             Kills the emulator created by AVD manager above, and deletes the `_tmp` directory.
