@@ -15,16 +15,16 @@ func main() {
 
 func run() int {
 	logger := log.NewLogger()
-	instrumentedTestStep := createStep(logger)
+	instrumentedTestRunner := createTestRunner(logger)
 	exitCode := 0
 
-	config, err := instrumentedTestStep.ProcessConfig()
+	config, err := instrumentedTestRunner.ProcessConfig()
 	if err != nil {
 		logger.Errorf(err.Error())
 		exitCode = 1
 	}
 
-	err = instrumentedTestStep.Run(*config)
+	err = instrumentedTestRunner.Run(*config)
 	if err != nil {
 		logger.Errorf(err.Error())
 		exitCode = 1
@@ -33,7 +33,7 @@ func run() int {
 	return exitCode
 }
 
-func createStep(logger log.Logger) step.AndroidInstrumentedTestStep {
+func createTestRunner(logger log.Logger) step.InstrumentedTestRunner {
 	osEnvs := env.NewRepository()
 	inputParser := stepconf.NewInputParser(osEnvs)
 	commandFactory := command.NewFactory(osEnvs)

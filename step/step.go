@@ -23,7 +23,7 @@ type Config struct {
 	AdditionalTestingOptions []string
 }
 
-type AndroidInstrumentedTestStep struct {
+type InstrumentedTestRunner struct {
 	logger         log.Logger
 	inputParser    stepconf.InputParser
 	commandFactory command.Factory
@@ -33,17 +33,17 @@ func New(
 	logger log.Logger,
 	inputParser stepconf.InputParser,
 	commandFactory command.Factory,
-) AndroidInstrumentedTestStep {
-	return AndroidInstrumentedTestStep{
+) InstrumentedTestRunner {
+	return InstrumentedTestRunner{
 		logger:         logger,
 		inputParser:    inputParser,
 		commandFactory: commandFactory,
 	}
 }
 
-func (a AndroidInstrumentedTestStep) ProcessConfig() (*Config, error) {
+func (i InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 	var input Input
-	err := a.inputParser.Parse(&input)
+	err := i.inputParser.Parse(&input)
 	if err != nil {
 		return nil, fmt.Errorf("unable to parse input: %w", err)
 	}
@@ -65,17 +65,17 @@ func (a AndroidInstrumentedTestStep) ProcessConfig() (*Config, error) {
 	}, nil
 }
 
-func (a AndroidInstrumentedTestStep) Run(config Config) error {
-	a.logger.Println()
-	a.logger.Infof("Installing main APK:")
-	mainAPKInstallError := installAPK(a.commandFactory, config.MainAPKPath)
+func (i InstrumentedTestRunner) Run(config Config) error {
+	i.logger.Println()
+	i.logger.Infof("Installing main APK:")
+	mainAPKInstallError := installAPK(i.commandFactory, config.MainAPKPath)
 	if mainAPKInstallError != nil {
 		return mainAPKInstallError
 	}
 
-	a.logger.Println()
-	a.logger.Infof("Installing test APK:")
-	testAPKInstallError := installAPK(a.commandFactory, config.TestAPKPath)
+	i.logger.Println()
+	i.logger.Infof("Installing test APK:")
+	testAPKInstallError := installAPK(i.commandFactory, config.TestAPKPath)
 	if testAPKInstallError != nil {
 		return testAPKInstallError
 	}
@@ -85,10 +85,10 @@ func (a AndroidInstrumentedTestStep) Run(config Config) error {
 		return getAPKPackageNameError
 	}
 
-	a.logger.Println()
-	a.logger.Infof("Running tests:")
+	i.logger.Println()
+	i.logger.Infof("Running tests:")
 	instrumentTestErr := runTests(
-		a.commandFactory,
+		i.commandFactory,
 		packageName,
 		config.TestRunnerClass,
 		config.AdditionalTestingOptions,
