@@ -1,13 +1,6 @@
 format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
-app:
-  envs:
-  - BITRISE_STEP_ID: android-instrumented-test
-  - BITRISE_STEP_VERSION: 0.0.1
-  - BITRISE_STEP_GIT_CLONE_URL: https://github.com/hisaac/bitrise-step-android-instrumented-test.git
-  - MY_STEPLIB_REPO_FORK_GIT_URL: $MY_STEPLIB_REPO_FORK_GIT_URL
-
 workflows:
   check:
     steps:
