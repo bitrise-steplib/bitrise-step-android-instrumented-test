@@ -29,10 +29,9 @@ func getAPKPackageName(apkPath string) (string, error) {
 	}
 
 	var manifest AndroidManifest
-	err := xml.Unmarshal(output.Bytes(), &manifest)
-	if err != nil {
+	if err := xml.Unmarshal(output.Bytes(), &manifest); err != nil {
 		return "", fmt.Errorf("failed to unmarshal XML: %w", err)
-	} else {
-		return manifest.PackageName, nil
 	}
+
+	return manifest.PackageName, nil
 }

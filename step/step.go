@@ -43,8 +43,7 @@ func New(
 
 func (i InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 	var input Input
-	err := i.inputParser.Parse(&input)
-	if err != nil {
+	if err := i.inputParser.Parse(&input); err != nil {
 		return nil, fmt.Errorf("unable to parse input: %w", err)
 	}
 	stepconf.Print(input)
@@ -68,33 +67,31 @@ func (i InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 func (i InstrumentedTestRunner) Run(config Config) error {
 	i.logger.Println()
 	i.logger.Infof("Installing main APK:")
-	mainAPKInstallError := installAPK(i.commandFactory, config.MainAPKPath)
-	if mainAPKInstallError != nil {
-		return mainAPKInstallError
+	if err := installAPK(i.commandFactory, config.MainAPKPath); err != nil {
+		return err
 	}
 
 	i.logger.Println()
 	i.logger.Infof("Installing test APK:")
-	testAPKInstallError := installAPK(i.commandFactory, config.TestAPKPath)
-	if testAPKInstallError != nil {
-		return testAPKInstallError
+	if err := installAPK(i.commandFactory, config.TestAPKPath); err != nil {
+		return err
 	}
 
-	packageName, getAPKPackageNameError := getAPKPackageName(config.TestAPKPath)
-	if getAPKPackageNameError != nil {
-		return getAPKPackageNameError
+	packageName, err := getAPKPackageName(config.TestAPKPath)
+	if err != nil {
+		return err
 	}
 
 	i.logger.Println()
 	i.logger.Infof("Running tests:")
-	instrumentTestErr := runTests(
+	err = runTests(
 		i.commandFactory,
 		packageName,
 		config.TestRunnerClass,
 		config.AdditionalTestingOptions,
 	)
-	if instrumentTestErr != nil {
-		return instrumentTestErr
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -128,12 +125,12 @@ func runADBCommand(commandFactory command.Factory, args []string) error {
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
 	})
-	cmdError := cmd.Run()
-	if cmdError != nil {
+
+	if err := cmd.Run(); err != nil {
 		return fmt.Errorf(
-			"command: (%s) failed, error: %w", cmd.PrintableCommandArgs(), cmdError,
+			"command: (%s) failed, error: %w", cmd.PrintableCommandArgs(), err,
 		)
-	} else {
-		return nil
 	}
+
+	return nil
 }
