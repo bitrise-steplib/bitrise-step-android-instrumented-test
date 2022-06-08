@@ -22,8 +22,8 @@ workflows:
     - script:
         inputs:
         - content: |
-            #!/bin/bash
-            set -ex
+            #!/bin/env bash
+            set -xeo pipefail
             rm -rf "./_tmp"
     - git::https://github.com/bitrise-steplib/bitrise-step-simple-git-clone.git:
         inputs:
@@ -34,7 +34,7 @@ workflows:
         run_if: .IsCI
         inputs:
         - gradlew_path: ./_tmp/gradlew
-    - git::https://github.com/bitrise-steplib/bitrise-step-android-build-for-ui-testing.git@master:
+    - git::https://github.com/bitrise-steplib/bitrise-step-android-build-for-ui-testing.git:
         inputs:
         - project_location: ./_tmp
         - module: $TEST_APP_MODULE
@@ -42,7 +42,7 @@ workflows:
     - git::https://github.com/bitrise-steplib/steps-avd-manager.git@master:
         inputs:
         - abi: arm64-v8a
-    - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator@master: { }
+    - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator: { }
     - path::./:
         title: Step Test
     - script:
@@ -55,8 +55,8 @@ workflows:
         run_if: not .IsCI
         inputs:
         - content: |
-            #!/bin/bash
-            set -ex
+            #!/bin/env bash
+            set -xeo pipefail
             adb -s $BITRISE_EMULATOR_SERIAL emu kill
             rm -rf ./_tmp
 
