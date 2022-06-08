@@ -41,9 +41,9 @@ func New(
 	}
 }
 
-func (i InstrumentedTestRunner) ProcessConfig() (*Config, error) {
+func (testRunner InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 	var input Input
-	if err := i.inputParser.Parse(&input); err != nil {
+	if err := testRunner.inputParser.Parse(&input); err != nil {
 		return nil, fmt.Errorf("unable to parse input: %w", err)
 	}
 	stepconf.Print(input)
@@ -64,16 +64,16 @@ func (i InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 	}, nil
 }
 
-func (i InstrumentedTestRunner) Run(config Config) error {
-	i.logger.Println()
-	i.logger.Infof("Installing main APK:")
-	if err := installAPK(i.commandFactory, config.MainAPKPath); err != nil {
+func (testRunner InstrumentedTestRunner) Run(config Config) error {
+	testRunner.logger.Println()
+	testRunner.logger.Infof("Installing main APK:")
+	if err := installAPK(testRunner.commandFactory, config.MainAPKPath); err != nil {
 		return err
 	}
 
-	i.logger.Println()
-	i.logger.Infof("Installing test APK:")
-	if err := installAPK(i.commandFactory, config.TestAPKPath); err != nil {
+	testRunner.logger.Println()
+	testRunner.logger.Infof("Installing test APK:")
+	if err := installAPK(testRunner.commandFactory, config.TestAPKPath); err != nil {
 		return err
 	}
 
@@ -82,10 +82,10 @@ func (i InstrumentedTestRunner) Run(config Config) error {
 		return err
 	}
 
-	i.logger.Println()
-	i.logger.Infof("Running tests:")
+	testRunner.logger.Println()
+	testRunner.logger.Infof("Running tests:")
 	err = runTests(
-		i.commandFactory,
+		testRunner.commandFactory,
 		packageName,
 		config.TestRunnerClass,
 		config.AdditionalTestingOptions,
