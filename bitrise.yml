@@ -23,7 +23,7 @@ workflows:
         inputs:
         - content: |
             #!/bin/env bash
-            set -xeo pipefail
+            set -euo pipefail
             rm -rf "./_tmp"
     - git::https://github.com/bitrise-steplib/bitrise-step-simple-git-clone.git:
         inputs:
@@ -56,7 +56,7 @@ workflows:
         inputs:
         - content: |
             #!/bin/env bash
-            set -xeo pipefail
+            set -euo pipefail
             adb -s $BITRISE_EMULATOR_SERIAL emu kill
             rm -rf ./_tmp
 
