@@ -2,11 +2,14 @@ package step
 
 import (
 	"fmt"
+	"os"
+
+	"github.com/bitrise-io/go-android/adbmanager"
+	"github.com/bitrise-io/go-android/sdk"
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
 	"github.com/bitrise-io/go-utils/v2/command"
 	"github.com/bitrise-io/go-utils/v2/log"
 	"github.com/kballard/go-shellquote"
-	"os"
 )
 
 type Input struct {
@@ -65,15 +68,36 @@ func (testRunner InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 }
 
 func (testRunner InstrumentedTestRunner) Run(config Config) error {
+	androidSDK, err := sdk.NewDefaultModel(sdk.Environment{
+		AndroidHome:    sdk.NewEnvironment().AndroidHome,
+		AndroidSDKRoot: sdk.NewEnvironment().AndroidSDKRoot,
+	})
+	if err != nil {
+		return err
+	}
+
+	adb, err := adbmanager.New(androidSDK, testRunner.commandFactory)
+	if err != nil {
+		return err
+	}
+	commandOptions := &command.Opts{
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+
 	testRunner.logger.Println()
-	testRunner.logger.Infof("Installing main APK:")
-	if err := installAPK(testRunner.commandFactory, config.MainAPKPath); err != nil {
+	testRunner.logger.Infof("Installing main APK")
+
+	installMainAPKCommand := adb.InstallAPKCmd(config.MainAPKPath, commandOptions)
+	if err = installMainAPKCommand.Run(); err != nil {
 		return err
 	}
 
 	testRunner.logger.Println()
-	testRunner.logger.Infof("Installing test APK:")
-	if err := installAPK(testRunner.commandFactory, config.TestAPKPath); err != nil {
+	testRunner.logger.Infof("Installing test APK")
+
+	installTestAPKCommand := adb.InstallAPKCmd(config.TestAPKPath, commandOptions)
+	if err = installTestAPKCommand.Run(); err != nil {
 		return err
 	}
 
@@ -83,54 +107,13 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 	}
 
 	testRunner.logger.Println()
-	testRunner.logger.Infof("Running tests:")
-	err = runTests(
-		testRunner.commandFactory,
+	testRunner.logger.Infof("Running tests")
+	runTestsCommand := adb.RunInstrumentedTestsCmd(
 		packageName,
 		config.TestRunnerClass,
 		config.AdditionalTestingOptions,
+		commandOptions,
 	)
-	if err != nil {
-		return err
-	}
 
-	return nil
-}
-
-func installAPK(commandFactory command.Factory, apkPath string) error {
-	args := []string{"install", apkPath}
-	return runADBCommand(commandFactory, args)
-}
-
-func runTests(
-	commandFactory command.Factory,
-	packageName string,
-	testRunnerClass string,
-	additionalTestingOptions []string,
-) error {
-	args := []string{
-		"shell",
-		"am", "instrument",
-		"-w", packageName + "/" + testRunnerClass,
-	}
-	if len(additionalTestingOptions) > 0 {
-		args = append(args, "-e")
-		args = append(args, additionalTestingOptions...)
-	}
-	return runADBCommand(commandFactory, args)
-}
-
-func runADBCommand(commandFactory command.Factory, args []string) error {
-	cmd := commandFactory.Create("adb", args, &command.Opts{
-		Stdout: os.Stdout,
-		Stderr: os.Stderr,
-	})
-
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf(
-			"command: (%s) failed, error: %w", cmd.PrintableCommandArgs(), err,
-		)
-	}
-
-	return nil
+	return runTestsCommand.Run()
 }
