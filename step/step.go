@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bitrise-io/go-android/adbmanager"
-	"github.com/bitrise-io/go-android/sdk"
+	"github.com/bitrise-io/go-android/v2/adbmanager"
+	"github.com/bitrise-io/go-android/v2/sdk"
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
 	"github.com/bitrise-io/go-utils/v2/command"
 	"github.com/bitrise-io/go-utils/v2/log"
