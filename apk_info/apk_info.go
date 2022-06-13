@@ -1,9 +1,10 @@
-package step
+package apk_info
 
 import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+
 	"github.com/avast/apkparser"
 )
 
@@ -12,7 +13,7 @@ type AndroidManifest struct {
 	PackageName string   `xml:"package,attr"`
 }
 
-func getAPKPackageName(apkPath string) (string, error) {
+func GetAPKPackageName(apkPath string) (string, error) {
 	output := &bytes.Buffer{}
 	encoder := xml.NewEncoder(output)
 	encoder.Indent("", "\t")

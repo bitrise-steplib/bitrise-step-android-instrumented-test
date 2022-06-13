@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/bitrise-steplib/bitrise-step-android-instrumented-test/apk_info"
+
 	"github.com/bitrise-io/go-android/v2/adbmanager"
 	"github.com/bitrise-io/go-android/v2/sdk"
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
@@ -101,7 +103,7 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 		return err
 	}
 
-	packageName, err := getAPKPackageName(config.TestAPKPath)
+	packageName, err := apk_info.GetAPKPackageName(config.TestAPKPath)
 	if err != nil {
 		return err
 	}
