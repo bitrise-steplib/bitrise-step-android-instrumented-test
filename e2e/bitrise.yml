@@ -2,12 +2,16 @@ format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
 workflows:
-  sample:
+  test_bitrise_sample_app:
     envs:
     - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
     - TEST_APP_BRANCH: main
     - TEST_APP_MODULE: app
     - TEST_APP_VARIANT: debug
+    after_run:
+    - _common
+
+  _common:
     steps:
     - script:
         inputs:

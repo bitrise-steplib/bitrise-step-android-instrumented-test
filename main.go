@@ -1,12 +1,14 @@
 package main
 
 import (
+	"os"
+
+	"github.com/bitrise-steplib/bitrise-step-android-instrumented-test/step"
+
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
 	"github.com/bitrise-io/go-utils/v2/command"
 	"github.com/bitrise-io/go-utils/v2/env"
 	"github.com/bitrise-io/go-utils/v2/log"
-	"github.com/bitrise-steplib/bitrise-step-android-instrumented-test/step"
-	"os"
 )
 
 func main() {
