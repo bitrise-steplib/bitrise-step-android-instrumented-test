@@ -10,8 +10,8 @@ github.com/avast/apkverifier v0.0.0-20200217135742-aa28c80b82ae/go.mod h1:SV58cy
 github.com/avast/apkverifier v0.0.0-20200416105355-97c5338f32f0/go.mod h1:HskRSJJJbP3poUkDRAyRAdDVSsh5J1mz8cRc2/B4kbc=
 github.com/avast/apkverifier v0.0.0-20210219091843-33631264c352/go.mod h1:uhY/I/3Vh3V6ZFgLm/EFX/j5//MdoXpvcULTtzRW3YA=
 github.com/avast/apkverifier v0.0.0-20210916093748-2146ff7c4b7f/go.mod h1:APQFx11UQTdbLKlZVJQFddZcJZxoHl6NnJfHN7foLD8=
-github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1 h1:ch+Rwa1k01OpnAMpQgGQt9vrZbZnPOOzsFOqpplk5aE=
-github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1/go.mod h1:pkrTuGB9KAgVTWsMJ8UjqKjSInaNcdp8En9Fxqg2krc=
+github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1.0.20220616163638-b2f0a4804e95 h1:mNg7k7DIOaR4bb7ILCxc8PFGbU5160tgNzsrtYryrQE=
+github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1.0.20220616163638-b2f0a4804e95/go.mod h1:pkrTuGB9KAgVTWsMJ8UjqKjSInaNcdp8En9Fxqg2krc=
 github.com/bitrise-io/go-steputils v1.0.1/go.mod h1:YIUaQnIAyK4pCvQG0hYHVkSzKNT9uL2FWmkFNW4mfNI=
 github.com/bitrise-io/go-steputils v1.0.2 h1:BEFG87r7uA/Yabk4SmuxP2yOgjjO+YGsDOYXtUH8IJ0=
 github.com/bitrise-io/go-steputils v1.0.2/go.mod h1:YIUaQnIAyK4pCvQG0hYHVkSzKNT9uL2FWmkFNW4mfNI=

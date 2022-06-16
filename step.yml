@@ -56,12 +56,17 @@ inputs:
 - additional_testing_options: ""
   opts:
     title: Additional testing options
-    summary: Additional options to pass to the `adb` command
+    summary: A space-delimited list of additional options to pass to the test runner
     description: |-
-      Additional options to pass to the `adb` command
+      A space-delimited list of additional options to pass to the test runner
 
-      Options will be passed to the command like so:
+      Example:
+
+      If a value of `KEY1 true KEY2 false` is passed to this input,
+      then it will be passed to the `adb` command like so:
 
       ```shell
-      adb shell am instrument [...] -e $additional_testing_options
+      adb shell am instrument -e "KEY1" "true" "KEY2" "false" [...]
       ```
+
+      See the [`adb` documentation](https://developer.android.com/studio/command-line/adb#am) for more info.

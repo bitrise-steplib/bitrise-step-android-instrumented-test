@@ -1,7 +1,7 @@
 # github.com/avast/apkparser v0.0.0-20210916093943-83cd5d10d9d7
 ## explicit; go 1.10
 github.com/avast/apkparser
-# github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1
+# github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1.0.20220616163638-b2f0a4804e95
 ## explicit; go 1.16
 github.com/bitrise-io/go-android/v2/adbmanager
 github.com/bitrise-io/go-android/v2/sdk
