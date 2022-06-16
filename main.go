@@ -24,6 +24,7 @@ func run() int {
 	if err != nil {
 		logger.Errorf(err.Error())
 		exitCode = 1
+		return exitCode
 	}
 
 	if err := instrumentedTestRunner.Run(*config); err != nil {
