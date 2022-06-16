@@ -1,16 +1,18 @@
 package step
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"os"
-
-	"github.com/bitrise-steplib/bitrise-step-android-instrumented-test/apk_info"
+	"strings"
 
 	"github.com/bitrise-io/go-android/v2/adbmanager"
 	"github.com/bitrise-io/go-android/v2/sdk"
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
 	"github.com/bitrise-io/go-utils/v2/command"
 	"github.com/bitrise-io/go-utils/v2/log"
+	"github.com/bitrise-steplib/bitrise-step-android-instrumented-test/apk_info"
 	"github.com/kballard/go-shellquote"
 )
 
@@ -110,12 +112,28 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 
 	testRunner.logger.Println()
 	testRunner.logger.Infof("Running tests")
+
+	outputBuffer := &bytes.Buffer{}
+	testOutputWriter := io.MultiWriter(os.Stdout, outputBuffer)
+
 	runTestsCommand := adb.RunInstrumentedTestsCmd(
 		packageName,
 		config.TestRunnerClass,
 		config.AdditionalTestingOptions,
-		commandOptions,
+		&command.Opts{
+			Stdout: testOutputWriter,
+			Stderr: testOutputWriter,
+		},
 	)
 
-	return runTestsCommand.Run()
+	if err := runTestsCommand.Run(); err != nil {
+		return err
+	}
+
+	// `adb` does not return an error exit code when tests fail, so we parse the test log instead
+	if strings.Contains(outputBuffer.String(), "FAILURES!!!") {
+		return fmt.Errorf("test run contained at least one test failure")
+	}
+
+	return nil
 }
