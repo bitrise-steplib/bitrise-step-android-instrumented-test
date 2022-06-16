@@ -25,11 +25,9 @@ deps:
   apt_get:
   - name: git
 
-
 toolkit:
   go:
     package_name: github.com/hisaac/bitrise-step-android-instrument-test
-
 
 inputs:
 - main_apk_path: $BITRISE_APK_PATH
