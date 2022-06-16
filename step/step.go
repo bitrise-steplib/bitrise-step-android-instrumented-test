@@ -93,6 +93,7 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 	testRunner.logger.Infof("Installing main APK")
 
 	installMainAPKCommand := adb.InstallAPKCmd(config.MainAPKPath, commandOptions)
+	testRunner.logger.Donef("$ %s", installMainAPKCommand.PrintableCommandArgs())
 	if err = installMainAPKCommand.Run(); err != nil {
 		return err
 	}
@@ -101,6 +102,7 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 	testRunner.logger.Infof("Installing test APK")
 
 	installTestAPKCommand := adb.InstallAPKCmd(config.TestAPKPath, commandOptions)
+	testRunner.logger.Donef("$ %s", installTestAPKCommand.PrintableCommandArgs())
 	if err = installTestAPKCommand.Run(); err != nil {
 		return err
 	}
@@ -126,6 +128,7 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 		},
 	)
 
+	testRunner.logger.Donef("$ %s", runTestsCommand.PrintableCommandArgs())
 	if err := runTestsCommand.Run(); err != nil {
 		return err
 	}
