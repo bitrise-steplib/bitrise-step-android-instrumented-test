@@ -51,7 +51,7 @@ func New(
 func (testRunner InstrumentedTestRunner) ProcessConfig() (*Config, error) {
 	var input Input
 	if err := testRunner.inputParser.Parse(&input); err != nil {
-		return nil, fmt.Errorf("unable to parse input: %w", err)
+		return nil, err
 	}
 	stepconf.Print(input)
 
