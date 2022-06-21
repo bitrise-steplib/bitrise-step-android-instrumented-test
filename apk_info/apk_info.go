@@ -8,11 +8,6 @@ import (
 	"github.com/avast/apkparser"
 )
 
-type AndroidManifest struct {
-	XMLName     xml.Name `xml:"manifest"`
-	PackageName string   `xml:"package,attr"`
-}
-
 func GetAPKPackageName(apkPath string) (string, error) {
 	output := &bytes.Buffer{}
 	encoder := xml.NewEncoder(output)
@@ -29,7 +24,9 @@ func GetAPKPackageName(apkPath string) (string, error) {
 		return "", fmt.Errorf("failed to parse AndroidManifest.xml: %w", manifestError)
 	}
 
-	var manifest AndroidManifest
+	var manifest struct {
+		PackageName string `xml:"package,attr"`
+	}
 	if err := xml.Unmarshal(output.Bytes(), &manifest); err != nil {
 		return "", fmt.Errorf("failed to unmarshal XML: %w", err)
 	}
