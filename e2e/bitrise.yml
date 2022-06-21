@@ -4,8 +4,8 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 workflows:
   test_bitrise_sample_app_no_failures:
     envs:
-    - TEST_APP_URL: https://github.com/hisaac/Bitrise-Android-Modules-Sample.git
-    - TEST_APP_BRANCH: make-fail
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
     - TEST_APP_MODULE: app
     - TEST_APP_VARIANT: debug
     before_run:
@@ -16,8 +16,8 @@ workflows:
 
   test_failing_ui_test:
     envs:
-    - TEST_APP_URL: https://github.com/hisaac/Bitrise-Android-Modules-Sample.git
-    - TEST_APP_BRANCH: make-fail
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
     - TEST_APP_MODULE: app
     - TEST_APP_VARIANT: debug
     - ADDITIONAL_TESTING_OPTIONS: FAIL_UI_TEST true
@@ -42,8 +42,8 @@ workflows:
 
   test_failing_unit_test:
     envs:
-    - TEST_APP_URL: https://github.com/hisaac/Bitrise-Android-Modules-Sample.git
-    - TEST_APP_BRANCH: make-fail
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
     - TEST_APP_MODULE: app
     - TEST_APP_VARIANT: debug
     - ADDITIONAL_TESTING_OPTIONS: FAIL_UNIT_TEST true
