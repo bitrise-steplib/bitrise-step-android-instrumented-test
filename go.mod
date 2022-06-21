@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/avast/apkparser v0.0.0-20210916093943-83cd5d10d9d7
-	github.com/bitrise-io/go-android/v2 v2.0.0-alpha.1.0.20220616163638-b2f0a4804e95
-	github.com/bitrise-io/go-steputils/v2 v2.0.0-alpha.2
+	github.com/bitrise-io/go-android/v2 v2.0.0-alpha.2
+	github.com/bitrise-io/go-steputils/v2 v2.0.0-alpha.6
 	github.com/bitrise-io/go-utils v1.0.2
 	github.com/bitrise-io/go-utils/v2 v2.0.0-alpha.7
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
