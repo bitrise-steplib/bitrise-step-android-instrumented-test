@@ -25,8 +25,8 @@ You can also run this step directly with [Bitrise CLI](https://github.com/bitris
 | --- | --- | --- | --- |
 | `main_apk_path` | The path to the app's main APK | required | `$BITRISE_APK_PATH` |
 | `test_apk_path` | The path to the app's test APK | required | `$BITRISE_TEST_APK_PATH` |
-| `test_runner_class` | The name of the test runner |  | `androidx.test.runner.AndroidJUnitRunner` |
-| `additional_testing_options` | Additional options to pass to the `adb` command  Options will be passed to the command like so:  ```shell adb shell am instrument [...] -e $additional_testing_options ``` |  |  |
+| `test_runner_class` | The name of the test runner | required | `androidx.test.runner.AndroidJUnitRunner` |
+| `additional_testing_options` | A space-delimited list of additional options to pass to the test runner  Example:  If a value of `KEY1 true KEY2 false` is passed to this input, then it will be passed to the `adb` command like so:  ```shell adb shell am instrument -e "KEY1" "true" "KEY2" "false" [...] ```  See the [`adb` documentation](https://developer.android.com/studio/command-line/adb#am) for more info. |  |  |
 </details>
 
 <details>
