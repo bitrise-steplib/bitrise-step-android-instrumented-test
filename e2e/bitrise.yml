@@ -90,7 +90,11 @@ workflows:
         - project_location: ./_tmp
         - module: $TEST_APP_MODULE
         - variant: $TEST_APP_VARIANT
-    - git::https://github.com/bitrise-steplib/steps-avd-manager@auto-select-abi: { }
+    - git::https://github.com/bitrise-steplib/steps-avd-manager: { }
+    # If you need to run this on an Apple Silicon device during development, uncomment the lines below, and comment out the line above.
+#    - git::https://github.com/bitrise-steplib/steps-avd-manager:
+#        inputs:
+#        - abi: arm64-v8a
     - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator: { }
 
   run_tests:
