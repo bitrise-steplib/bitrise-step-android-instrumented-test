@@ -85,17 +85,15 @@ workflows:
         run_if: .IsCI
         inputs:
         - gradlew_path: ./_tmp/gradlew
-    - android-build-for-ui-testing:
+    - git::https://github.com/bitrise-steplib/bitrise-step-android-build-for-ui-testing:
         inputs:
         - project_location: ./_tmp
         - module: $TEST_APP_MODULE
         - variant: $TEST_APP_VARIANT
-    - avd-manager:
+    - git::https://github.com/bitrise-steplib/steps-avd-manager:
         inputs:
-        - api_level: "30"
-        - abi: x86_64
-        - tag: google_apis_playstore
-    - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator.git@update-boot-check: { }
+        - abi: arm64-v8a
+    - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator: { }
 
   run_tests:
     steps:
