@@ -90,9 +90,7 @@ workflows:
         - project_location: ./_tmp
         - module: $TEST_APP_MODULE
         - variant: $TEST_APP_VARIANT
-    - git::https://github.com/bitrise-steplib/steps-avd-manager:
-        inputs:
-        - abi: x86_64
+    - git::https://github.com/bitrise-steplib/steps-avd-manager@auto-select-abi: { }
     - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator: { }
 
   run_tests:
