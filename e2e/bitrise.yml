@@ -92,7 +92,7 @@ workflows:
         - variant: $TEST_APP_VARIANT
     - git::https://github.com/bitrise-steplib/steps-avd-manager:
         inputs:
-        - abi: arm64-v8a
+        - abi: x86_64
     - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator: { }
 
   run_tests:
