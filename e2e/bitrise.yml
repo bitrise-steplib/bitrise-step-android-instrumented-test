@@ -92,10 +92,10 @@ workflows:
         - variant: $TEST_APP_VARIANT
     - avd-manager:
         inputs:
-        - api_level: '30'
+        - api_level: "30"
         - abi: x86_64
         - tag: google_apis_playstore
-    - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator.git@update-boot-check: {}
+    - git::https://github.com/bitrise-steplib/steps-wait-for-android-emulator.git@update-boot-check: { }
 
   run_tests:
     steps:
