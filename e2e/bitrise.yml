@@ -1,0 +1,120 @@
+format_version: "11"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  test_bitrise_sample_app_no_failures:
+    envs:
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
+    - TEST_APP_MODULE: app
+    - TEST_APP_VARIANT: debug
+    before_run:
+    - _setup
+    - run_tests
+    after_run:
+    - _cleanup
+
+  test_failing_ui_test:
+    envs:
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
+    - TEST_APP_MODULE: app
+    - TEST_APP_VARIANT: debug
+    - ADDITIONAL_TESTING_OPTIONS: FAIL_UI_TEST true
+    steps:
+    - script:
+        title: Start a failing test run, wrapped in a script.
+        inputs:
+        - content: |-
+            #!/bin/env bash
+            set -x # Do not set -e as bitrise command is expected to fail
+
+            bitrise run --config=./e2e/bitrise.yml run_tests
+
+            if [ $? -ne 1 ] ; then
+              echo "Workflow was excepted to fail, exit code not 1."
+              exit 1
+            fi
+    before_run:
+    - _setup
+    after_run:
+    - _cleanup
+
+  test_failing_unit_test:
+    envs:
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
+    - TEST_APP_MODULE: app
+    - TEST_APP_VARIANT: debug
+    - ADDITIONAL_TESTING_OPTIONS: FAIL_UNIT_TEST true
+    steps:
+    - script:
+        title: Start a failing test run, wrapped in a script.
+        inputs:
+        - content: |-
+            #!/bin/env bash
+            set -x # Do not set -e as bitrise command is expected to fail
+
+            bitrise run --config=./e2e/bitrise.yml run_tests
+
+            if [ $? -ne 1 ] ; then
+              echo "Workflow was excepted to fail, exit code not 1."
+              exit 1
+            fi
+    before_run:
+    - _setup
+    after_run:
+    - _cleanup
+
+  # Utility workflows
+
+  _setup:
+    steps:
+    - script:
+        inputs:
+        - content: |
+            #!/bin/env bash
+            set -euo pipefail
+            rm -rf "./_tmp"
+    - git::https://github.com/bitrise-steplib/bitrise-step-simple-git-clone:
+        inputs:
+        - repository_url: $TEST_APP_URL
+        - branch: $TEST_APP_BRANCH
+        - clone_into_dir: ./_tmp
+    - install-missing-android-tools:
+        run_if: .IsCI
+        inputs:
+        - gradlew_path: ./_tmp/gradlew
+    - android-build-for-ui-testing:
+        inputs:
+        - project_location: ./_tmp
+        - module: $TEST_APP_MODULE
+        - variant: $TEST_APP_VARIANT
+    - avd-manager: { }
+    # If you need to run this on an Apple Silicon device during development, uncomment the lines below, and comment out the line above.
+#    - avd-manager:
+#        inputs:
+#        - abi: arm64-v8a
+    - wait-for-android-emulator: { }
+
+  run_tests:
+    steps:
+    - path::./:
+        title: Step Test
+        inputs:
+        - additional_testing_options: $ADDITIONAL_TESTING_OPTIONS
+
+  _cleanup:
+    steps:
+    - script:
+        is_always_run: true
+        summary: Cleanup local environment
+        description: Kills the emulator created by AVD manager, and deletes temporary files
+        inputs:
+        - content: |
+            #!/bin/env bash
+            set -euo pipefail
+            adb -s $BITRISE_EMULATOR_SERIAL emu kill
+            rm -rf ./_tmp
+            rm -rf "$BITRISE_DEPLOY_DIR/app-debug.apk"
+            rm -rf "$BITRISE_DEPLOY_DIR/app-debug-androidTest.apk"

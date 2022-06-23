@@ -1,0 +1,65 @@
+format_version: "11"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+workflows:
+  check:
+    steps:
+    - git::https://github.com/bitrise-steplib/steps-check.git: { }
+
+  e2e:
+    steps:
+    - git::https://github.com/bitrise-steplib/steps-check.git:
+        inputs:
+        - workflow: e2e
+
+  generate_readme:
+    steps:
+    - git::https://github.com/bitrise-steplib/steps-readme-generator.git: { }
+
+  sample:
+    envs:
+    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Modules-Sample.git
+    - TEST_APP_BRANCH: main
+    - TEST_APP_MODULE: app
+    - TEST_APP_VARIANT: debug
+    steps:
+    - script:
+        inputs:
+        - content: |
+            #!/bin/env bash
+            set -euo pipefail
+            rm -rf "./_tmp"
+    - git::https://github.com/bitrise-steplib/bitrise-step-simple-git-clone:
+        inputs:
+        - repository_url: $TEST_APP_URL
+        - branch: $TEST_APP_BRANCH
+        - clone_into_dir: ./_tmp
+    - install-missing-android-tools:
+        run_if: .IsCI
+        inputs:
+        - gradlew_path: ./_tmp/gradlew
+    - android-build-for-ui-testing:
+        inputs:
+        - project_location: ./_tmp
+        - module: $TEST_APP_MODULE
+        - variant: $TEST_APP_VARIANT
+    - avd-manager: { }
+    # If you need to run this on an Apple Silicon device during development, uncomment the lines below, and comment out the line above.
+#    - avd-manager:
+#        inputs:
+#        - abi: arm64-v8a
+    - wait-for-android-emulator: { }
+    - path::./:
+        title: Step Test
+    - script:
+        is_always_run: true
+        summary: Cleanup local environment
+        description: Kills the emulator created by AVD manager, and deletes temporary files
+        inputs:
+        - content: |
+            #!/bin/env bash
+            set -euo pipefail
+            adb -s $BITRISE_EMULATOR_SERIAL emu kill
+            rm -rf ./_tmp
+            rm -rf "$BITRISE_DEPLOY_DIR/app-debug.apk"
+            rm -rf "$BITRISE_DEPLOY_DIR/app-debug-androidTest.apk"
