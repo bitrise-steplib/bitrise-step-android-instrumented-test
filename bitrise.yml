@@ -14,7 +14,7 @@ workflows:
 
   generate_readme:
     steps:
-    - git::https://github.com/bitrise-steplib/steps-readme-generator.git@main: { }
+    - git::https://github.com/bitrise-steplib/steps-readme-generator.git: { }
 
   sample:
     envs:
@@ -45,7 +45,7 @@ workflows:
         - variant: $TEST_APP_VARIANT
     - avd-manager: { }
     # If you need to run this on an Apple Silicon device during development, uncomment the lines below, and comment out the line above.
-#    - git::https://github.com/bitrise-steplib/steps-avd-manager:
+#    - avd-manager:
 #        inputs:
 #        - abi: arm64-v8a
     - wait-for-android-emulator: { }
