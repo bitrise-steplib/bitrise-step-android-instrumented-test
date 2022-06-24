@@ -1,13 +1,13 @@
-# Android Instrument Test
+# Android Instrumented Test
 
-[![Step changelog](https://shields.io/github/v/release/hisaac/bitrise-step-android-instrument-test?include_prereleases&label=changelog&color=blueviolet)](https://github.com/hisaac/bitrise-step-android-instrument-test/releases)
+[![Step changelog](https://shields.io/github/v/release/bitrise-steplib/bitrise-step-android-instrumented-test?include_prereleases&label=changelog&color=blueviolet)](https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test/releases)
 
-Runs Instrument tests on an existing APK
+Runs Instrumented tests on an existing APK
 
 <details>
 <summary>Description</summary>
 
-Runs Instrument tests on an existing APK
+Runs Instrumented tests on an existing APK
 </details>
 
 ## 🧩 Get started
@@ -36,7 +36,7 @@ There are no outputs defined in this step
 
 ## 🙋 Contributing
 
-We welcome [pull requests](https://github.com/hisaac/bitrise-step-android-instrument-test/pulls) and [issues](https://github.com/hisaac/bitrise-step-android-instrument-test/issues) against this repository.
+We welcome [pull requests](https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test/pulls) and [issues](https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test/issues) against this repository.
 
 For pull requests, work on your changes in a forked repository and use the Bitrise CLI to [run step tests locally](https://devcenter.bitrise.io/bitrise-cli/run-your-first-build/).
 
