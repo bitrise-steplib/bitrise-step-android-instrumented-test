@@ -1,9 +1,9 @@
-title: Android Instrument Test
-summary: Runs Instrument tests on an existing APK
-description: Runs Instrument tests on an existing APK
-website: https://github.com/hisaac/bitrise-step-android-instrument-test
-source_code_url: https://github.com/hisaac/bitrise-step-android-instrument-test
-support_url: https://github.com/hisaac/bitrise-step-android-instrument-test/issues
+title: Android Instrumented Test
+summary: Runs Instrumented tests on an existing APK
+description: Runs Instrumented tests on an existing APK
+website: https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test
+source_code_url: https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test
+support_url: https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test/issues
 host_os_tags:
 - osx-10.10
 - ubuntu-16.04
@@ -27,7 +27,7 @@ deps:
 
 toolkit:
   go:
-    package_name: github.com/hisaac/bitrise-step-android-instrument-test
+    package_name: github.com/bitrise-steplib/bitrise-step-android-instrumented-test
 
 inputs:
 - main_apk_path: $BITRISE_APK_PATH
