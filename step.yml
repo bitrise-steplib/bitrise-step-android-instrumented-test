@@ -11,9 +11,6 @@ project_type_tags:
 type_tags:
 - test
 
-is_always_run: false
-is_skippable: false
-
 toolkit:
   go:
     package_name: github.com/bitrise-steplib/bitrise-step-android-instrumented-test
