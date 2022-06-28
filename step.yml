@@ -4,26 +4,12 @@ description: Runs Instrumented tests on an existing APK
 website: https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test
 source_code_url: https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test
 support_url: https://github.com/bitrise-steplib/bitrise-step-android-instrumented-test/issues
-host_os_tags:
-- osx-10.10
-- ubuntu-16.04
 
 project_type_tags:
 - android
 
 type_tags:
 - test
-
-is_requires_admin_user: true
-is_always_run: false
-is_skippable: false
-run_if: ""
-
-deps:
-  brew:
-  - name: git
-  apt_get:
-  - name: git
 
 toolkit:
   go:
