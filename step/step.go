@@ -134,8 +134,14 @@ func (testRunner InstrumentedTestRunner) Run(config Config) error {
 	}
 
 	// `adb` does not return an error exit code when tests fail, so we parse the test log instead
-	if strings.Contains(outputBuffer.String(), "FAILURES!!!") {
-		return fmt.Errorf("test run contained at least one test failure")
+	patterns := []string {
+		"FAILURES!!!",
+		"shortMsg=Process crashed.",
+	}
+	for _, pattern := range patterns {
+		if strings.Contains(outputBuffer.String(), pattern) {
+			return fmt.Errorf("test run contained at least one test failure")
+		}
 	}
 
 	return nil
