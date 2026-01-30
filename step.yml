@@ -7,6 +7,11 @@ support_url: https://github.com/bitrise-steplib/bitrise-step-android-instrumente
 
 project_type_tags:
 - android
+- cordova
+- flutter
+- ionic
+- kotlin-multiplatform
+- react-native
 
 type_tags:
 - test
